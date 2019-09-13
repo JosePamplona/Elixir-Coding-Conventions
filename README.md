@@ -1,86 +1,86 @@
-**Programming Language Coding Conventions**
+**Convenciones de estilo para Lenguaje de Programación**
 
 # Elixir
 
-Guide for homogeneous coding in projects that require the use of the [Elixir](https://elixir-lang.org/) programming language.
+Guía para la codificación homogenea en proyectos que requieran el uso del lenguaje de programación [Elixir](https://elixir-lang.org/).
 
 ![José Pamplona Documents](https://img.shields.io/badge/José%20Pamplona-Documents-blue.svg)
 
 ---
 
-## Table of Contents
+## Tabla de Contenido
 
-- [**Guide**](#guide)
-  - [Source Code Layout](#source-code-layout)
-  - [Syntax](#syntax)
-  - [Naming](#naming)
-  - [Comments](#comments)
-    - [Comment Annotations](#comment-annotations)
-  - [Modules](#modules)
-  - [Functions](#functions)
-  - [Documentation](#documentation)
+- [**Guía**](#guía)
+  - [Disposición del Código Fuente (Layout)](#disposición-del-código-fuente-layout)
+  - [Sintaxis](#sintaxis)
+  - [Nombrado](#nombrado)
+  - [Comentarios](#comentarios)
+    - [Comentarios de Anotación](#comentarios-de-anotación)
+  - [Módulos](#módulos)
+  - [Funciones](#funciones)
+  - [Documentación](#documentación)
   - [Typespecs](#typespecs)
   - [Structs](#structs)
-  - [Exceptions](#exceptions)
+  - [Excepciones](#excepciones)
   - [Strings](#strings)
-  - [Testing](#testing)
-- [**Languages**](#languages)
-- [**Copying**](#copying)
-  - [License](#license)
-  - [Attribution](#attribution)
+  - [Pruebas](#pruebas)
+- [**Idiomas**](#idiomas)
+- [**Derechos**](#derechos)
+  - [Licencia](#licencia)
+  - [Atribución](#atribución)
 
-## Guide
+## Guía
 
-### Source Code Layout
+### Disposición del Código Fuente (Layout)
 
-1. Avoid lines longer than 80 characters.
+1. Evita lineas de más de 80 caracteres.
 
-1. Avoid trailing whitespace.
+1. Evita los espacios y tabulaciones al final de línea (*trailing whitespace*).
 
-1. Do not use semicolon to end the line, simply use a line ending.
+1. No utilices punto y coma al término de cada linea, utiliza simplemente el final de linea.
 
     ```elixir
-    # Not preferred
+    # No recomendado
     some_function();
 
-    # Preferred
+    # Recomendado
     some_function()
     ```
 
-1. Use Unix-style line endings `\n` (Operating systems derived from Unix are covered by default, Windows users have to be extra careful that the line endings were not `\n\r`).
+1. Usa los finales de línea de Unix `\n` (Los sistemas operativos derivados de Unix ya están cubiertos por defecto, los usuarios de Windows tendrán que prestar atención en que los saltos de línea no sean `\n\r`).
 
-    If you're using Git you might want to add the following configuration setting to protect your project from Windows line endings creeping in:
+    Si usas Git puede que quieras utilizar la siguiente configuración para protegerte de que se te cuelen los finales de línea de Windows:
 
     ```sh
     git config --global core.autocrlf
     ```
 
-1. Use two spaces per indentation level. No hard tabs.
+1. Usa dos espacios por nivel de indentación. No utilices tabulaciones.
 
     ```elixir
-    # Not preferred (4 spaces)
+    # No recomendado (4 espacios)
     def some_function do
         do_something()
     end
 
-    # Preferred (2 spaces)
+    # Recomendado (2 espacios)
     def some_function do
       do_something()
     end
     ```
 
-1. Use spaces after commas, colons and around operators. Except for unary operators, the operator point and the operator rank (two points). Do not put spaces around matched pairs like brackets, parentheses, etc. Whitespace might be (mostly) irrelevant to the Elixir runtime, but its proper use is the key to writing easily readable code.
+1. Usa espacios después de comas, dos puntos y alrededor de operadores. Exceptuando operadores unarios, el operador punto y el operador rango (punto-punto). No coloques espacios alrededor de parejas como llaves, paréntesis, etc. Los espacios son (en la mayoría de casos) irrelevantes para Elixir en tiempo de ejecución, pero su uso apropiado es clave para escribir código fácilmente legible.
 
-    | Style&#160;rule | Operators |
+    | Regla&#160;de&#160;estilo | Operadores |
     | :--- | :--- |
-    | No&#160;spaces | `@` `.` `+` `-` `!` `^` `&` `..` `~~~` `()` `[]` `{}` |
-    | Space&#160;after | `,` `:` `not` |
-    | Spaces&#160;around | `*` `/` `+` `-` `++` `--` `<>` `in` `not in` `\|>` `<<<` `>>>` `~>>` `<<~` `~>` `<~` `<~>` `<\|>` `<` `>` `<=` `>=` `==` `!=` `=~` `===` `!==` `&&` `&&&` `and` `\|\|` `\|\|\|` `or` `=` `=>` `::` `when` `<-` `\\` |
+    | Sin&#160;espacios | `@` `.` `+` `-` `!` `^` `&` `..` `~~~` `()` `[]` `{}` |
+    | Espacio&#160;después | `,` `:` `not` |
+    | Espacios&#160;alrededor | `*` `/` `+` `-` `++` `--` `<>` `in` `not in` `\|>` `<<<` `>>>` `~>>` `<<~` `~>` `<~` `<~>` `<\|>` `<` `>` `<=` `>=` `==` `!=` `=~` `===` `!==` `&&` `&&&` `and` `\|\|` `\|\|\|` `or` `=` `=>` `::` `when` `<-` `\\` |
 
-    > ⚠️ The operators `+` `-` are overloaded, they exist with one-arity and two-arity. When used with one-arity, no spaces are required. When are used with two-arity, spaces are placed around the operator.
+    > ⚠️ Los operadores `+` `-` están sobrecargados, y existen con aridad 1 y 2. Cuando se utilizan el operador unario, no se usan espacios. Cuando se utiliza el operador binario, se colocan espacios al rededor de este.
 
     ```elixir
-    # Not preferred
+    # No recomendado
     result=2*5
     list =[ 1,<< 2 >> ,3 ]++[4 ,5 ]
     some_string|>String.trim()|>String.split( "-" )
@@ -94,7 +94,7 @@ Guide for homogeneous coding in projects that require the use of the [Elixir](ht
 
     def other_function( args,options\\[  ] ),do: some_function( )
 
-    # Preferred
+    # Recomendado
     result = 2 * 5
     list = [1, <<2>>, 3] ++ [4, 5]
     some_string |> String.trim() |> String.split("-")
@@ -109,10 +109,10 @@ Guide for homogeneous coding in projects that require the use of the [Elixir](ht
     def other_function(args, options \\ []), do: some_function()
     ```
 
-1. Use blank lines between `defs` to break up a function into logical paragraphs.
+1. Utiliza líneas en blanco entre estructuras `def` para separar las funciones en párrafos lógicos.
 
     ```elixir
-    # Not preferred
+    # No recomendado
     def some_function(some_data) do
       altered_data = Module.function(data)
     end
@@ -123,7 +123,7 @@ Guide for homogeneous coding in projects that require the use of the [Elixir](ht
       another_result
     end
 
-    # Preferred
+    # Recomendado
     def some_function(some_data) do
       altered_data = Module.function(data)
     end
@@ -137,22 +137,22 @@ Guide for homogeneous coding in projects that require the use of the [Elixir](ht
     end
     ```
 
-1. Run single-line `defs` that match for the same function together, but separate multiline `defs` with a blank line.
+1. No separes estructuras `def` que sean de una sola línea y que pertenezcan a la misma función. Pero si se trata de un `def` multilinea sí sepáralo con una línea en blanco.
 
     ```elixir
-    # Not preferred
+    # No recomendado
     def some_function(nil), do: {:error, "No Value"}
 
     def some_function([]), do: :ok
 
     def some_function([first | rest]), do: some_function(rest)
 
-    # Preferred
+    # Recomendado
     def some_function(nil), do: {:error, "No Value"}
     def some_function([]), do: :ok
     def some_function([first | rest]), do: some_function(rest)
 
-    # Also preferred
+    # Separación para el def multilínea.
     def some_function(nil), do: {:error, "No Value"}
     def some_function([]), do: :ok
 
@@ -161,33 +161,33 @@ Guide for homogeneous coding in projects that require the use of the [Elixir](ht
     end
     ```
 
-1. If the function head and `do:` clause are too long to fit on the same line, put `do:` on a new line, indented one level more than the previous line.
+1. Si utilizas la sintaxis `do:` en funciones y la línea que constituye el cuerpo de la función es demasiado larga, coloca el `do:` en una nueva línea con un nivel de indentación más que la línea anterior.
 
     ```elixir
-    # Preferred
+    # Recomendado
     def some_function([:foo, :bar, :baz] = args),
       do: Enum.map(args, fn arg -> arg <> " is on a very long line!" end)
     ```
 
-    When the `do:` clause starts on its own line, treat it as a multiline `def` by separating it with blank lines.
+    Cuando la clausula `do:` se encuentra en su propia linea, se le considera un `def` multilinea y se separa con una linea en blanco.
 
     ```elixir
-    # Not preferred
+    # No recomendado
     def some_function([]), do: :empty
     def some_function(_),
       do: :very_long_line_here
 
-    # Preferred
+    # Recomendado
     def some_function([]), do: :empty
 
     def some_function(_),
       do: :very_long_line_here
     ```
 
-1. If you have more than one multiline `def` matching the same function, do not use single-line `defs`.
+1. Si tienes dos o más estructuras `def` multilínea pertenecientes de una misma función, no utilices estructuras `def` de una sola línea en estas.
 
     ```elixir
-    # Not preferred
+    # No recomendado
     def some_function(nil), do: {:error, "No Value"}
     def some_function([]), do: :ok
 
@@ -199,7 +199,7 @@ Guide for homogeneous coding in projects that require the use of the [Elixir](ht
       some_function(rest, opts)
     end
 
-    # Preferred
+    # Recomendado
     def some_function(nil) do
       {:error, "No Value"}
     end
@@ -217,76 +217,76 @@ Guide for homogeneous coding in projects that require the use of the [Elixir](ht
     end
     ```
 
-1. Use the pipe operator `|>` to chain functions together.
+1. Usa el operador *pipe* `|>` para encadenar funciones una tras otra.
 
     ```elixir
-    # Not preferred
+    # No recomendado
     String.strip(String.downcase(some_string))
 
-    # Preferred
+    # Recomendado
     some_string |> String.downcase() |> String.strip()
 
-    # Multiline pipelines are not further indented.
+    # Los pipelines multilínea no se indentan.
     some_string
     |> String.downcase()
     |> String.strip()
 
-    # Multiline pipelines on the right side of a pattern match should be
-    # indented on a new line.
+    # Un pipeline multilínea que esté en el lado derecho de un pattern match
+    # debe ser indentado en una nueva línea.
     sanitized_string =
       some_string
       |> String.downcase()
       |> String.strip()
     ```
 
-    While this is the preferred method, take into account that copy-pasting multiline pipelines into IEx might result in a syntax error, as IEx will evaluate the first line without realizing that the next line has a pipeline.
+    Aunque este sea el método recomendado, ten en cuenta que al copiar y pegar *pipelines* multilínea en IEx podría causar un error de sintaxis, ya que IEx evaluará la primera línea sin darse cuenta de que la siguiente línea tiene otro *pipeline*.
 
-1. Use bare expresions in the first part of a function chain.
+1. Utiliza expresiones simples (*bare expresions*) como comienzo de una cadena de funciones.
 
     ```elixir
-    # THE WORST!
-    # This actually parses as:
+    # ¡NUNCA HAGAS ESTO!
+    # Esto en realidad se interpreta como:
     # String.strip("nope" |> String.downcase())
     String.trim "nope" |> String.downcase()
 
-    # Not preferred
+    # No recomendado
     String.trim(some_string) |> String.downcase() |> String.codepoints()
 
-    # Preferred
+    # Recomendado
     some_string |> String.trim() |> String.downcase() |> String.codepoints()
     ```
 
-1. Avoid using the pipe operator `|>` just once.
+1. Evita utilizar el operador *pipe* `|>` una única vez.
 
     ```elixir
-    # Not preferred
+    # No recomendado
     some_string |> String.downcase()
 
-    # Preferred
+    # Recomendado
     String.downcase(some_string)
     ```
 
-1. Use parentheses for one-arity functions when using the pipe operator `|>`.
+1. Coloca parentesis en funciones unarias cuando utilizes el operador *pipe* `|>`.
 
     ```elixir
-    # Not preferred
+    # No recomendado
     some_string |> String.downcase |> String.strip
 
-    # Preferred
+    # Recomendado
     some_string |> String.downcase() |> String.strip()
     ```
 
-1. Do not use anonymous functions in pipelines.
+1. No utilices funciones anónimas en una cadena de funciones.
 
     ```elixir
-    # Not preferred
+    # No recomendado
     some_string
     |> String.trim()
     |> String.downcase()
     |> (fn string -> string <> "_OK" end).()
     |> String.split("-")
 
-    # Preferred
+    # Recomendado
     some_string
     |> String.trim()
     |> String.downcase()
@@ -296,10 +296,10 @@ Guide for homogeneous coding in projects that require the use of the [Elixir](ht
     def review(string), do: string <> "_OK"
     ```
 
-1. When `case` or `cond` clauses span multiple lines, separate each clause with a blank line.
+1. Cuando las claúsulas de las estructuras `case` o `cond` requieran varias líneas, separa cada claúsula con una linea en blanco.
 
     ```elixir
-    # Not preferred
+    # No recomendado
     case arg do
       true ->
         :ok
@@ -307,7 +307,7 @@ Guide for homogeneous coding in projects that require the use of the [Elixir](ht
         :error
     end
 
-    # Preferred
+    # Recomendado
     case arg do
       true ->
         :ok
@@ -317,14 +317,14 @@ Guide for homogeneous coding in projects that require the use of the [Elixir](ht
     end
     ```
 
-1. If a *list*, *tuple*, *map*, or *struct* spans multiple lines, put each element, as well as the opening and closing brackets, on its own line. Indent each element one level, but not the brackets.
+1. Si un *list*, *tuple*, *map* o *struct* requiere varias líneas al declararse, se deberá colocar cada elemento y los delimitadores en una línea própia. Indenta un nivel cada elemento, pero no los delimitadores.
 
     ```elixir
-    # Not preferred
+    # No recomendado
     [:first_item, :second_item, :next_item,
     :final_item]
 
-    # Preferred
+    # Recomendado
     [
       :first_item,
       :second_item,
@@ -333,34 +333,34 @@ Guide for homogeneous coding in projects that require the use of the [Elixir](ht
     ]
     ```
 
-1. When assigning a *list*, *tuple*, *map*, or *struct*, keep the opening bracket on the same line as the assignment.
+1. Cuando asignes un *list*, *tuple*, *map* o *struct*, manten el delimitador de apertura en la misma linea de asignación.
 
     ```elixir
-    # Not preferred
+    # No recomendado
     list =
     [
       :first_item,
       :second_item
     ]
 
-    # Preferred
+    # Recomendado
     list = [
       :first_item,
       :second_item
     ]
     ```
 
-1. After a multiline assignment add a blank line as separation.
+1. Después de una asignación multilínea añade una línea en blanco como separación.
 
     ```elixir
-    # Not preferred
+    # No recomendado
     some_string =
       "Hello"
       |> String.downcase()
       |> String.strip()
     another_string <> some_string
 
-    # Preferred
+    # Recomendado
     some_string =
       "Hello"
       |> String.downcase()
@@ -369,36 +369,36 @@ Guide for homogeneous coding in projects that require the use of the [Elixir](ht
     another_string <> some_string
     ```
 
-1. Add underscores to decimal literals that have six or more digits.
+1. Agrega un guión bajo para separar en millares las literales decimales de seis dígitos o más.
 
     ```elixir
-    # Not preferred
+    # No recomendado
     num = 1000000
     num = 1_500
 
-    # Preferred
+    # Recomendado
     num = 1_000_000
     num = 1500
     ```
 
-1. Use uppercase letters when using hex literals.
+1. Utiliza letras mayúsculas cuando uses literales hexadecimales.
 
     ```elixir
-    # Not preferred
+    # No recomendado
     <<0xef, 0xbb, 0xbf>>
 
-    # Preferred
+    # Recomendado
     <<0xEF, 0xBB, 0xBF>>
     ```
 
-1. End each file with a newline.
+1. Termina cada archivo con una nueva línea.
 
-### Syntax
+### Sintaxis
 
-1. Use parentheses when a `def` structure has arguments, and omit them when it doesn't.
+1. Usa paréntesis al declarar una estructura `def` con uno o más argumentos, y omítelos cuando la estructura no reciba argumentos.
 
     ```elixir
-    # Not preferred
+    # No recomendado
     def some_function arg1, arg2 do
       ...
     end
@@ -407,7 +407,7 @@ Guide for homogeneous coding in projects that require the use of the [Elixir](ht
       ...
     end
 
-    # Preferred
+    # Recomendado
     def some_function(arg1, arg2) do
       ...
     end
@@ -417,35 +417,35 @@ Guide for homogeneous coding in projects that require the use of the [Elixir](ht
     end
     ```
 
-1. Never put a space between a function name and the opening parenthesis.
+1. Nunca dejes un espacio entre el nombre de la función y el paréntesis de apertura.
 
     ```elixir
-    # Not preferred
+    # No recomendado
     f (3 + 2)
 
-    # Preferred
+    # Recomendado
     f(3 + 2)
     ```
 
-1. Use always parentheses in function calls, especially inside a pipeline and in functions that do not receive arguments so they can be distinguished from variables. Starting in Elixir 1.4, the compiler will warn you about locations where this ambiguity exists.
+1. Utiliza siempre paréntesis en las llamadas a funciones, sobretodo dentro de un *pipeline* y en funciones que no reciban argumentos de tal forma que puedan ser distinguidas de las variables. A partir de Elixir 1.4, el compilador te avisará de los lugares en los que exista ambigüedad.
 
     ```elixir
-    # Not preferred
+    # No recomendado
     f 3
 
     Enum.reduce 1..100, 0, fn x, acc ->
       x + acc
     end
 
-    # This actually parses as: rem(2, (3 |> g()))
+    # Esto en realidad se interpreta como: rem(2, (3 |> g()))
     2 |> rem 3 |> g
 
     def my_func do
-      # Is this a variable or a function call?
+      # ¿Esto es una variable o una llamada a función?
       do_stuff
     end
 
-    # Preferred
+    # Recomendado
     f(3)
 
     Enum.reduce(1..100, 0, fn(x, acc) ->
@@ -455,15 +455,15 @@ Guide for homogeneous coding in projects that require the use of the [Elixir](ht
     2 |> rem(3) |> g()
 
     def my_func do
-      # This is clearly a function call.
+      # Esto es claramente una llamada a función.
       do_stuff()
     end
     ```
 
-1. For macros we see the contrary behaviour. The preferred way is to not use parentheses.
+1. Para los macros vemos un comportamiento contrario. La manera recomendada es no usar paréntesis.
 
     ```elixir
-    # Not preferred
+    # No recomendado
     if( valid?(username) ) do
       ...
     end
@@ -474,7 +474,7 @@ Guide for homogeneous coding in projects that require the use of the [Elixir](ht
       alias MyApp.Service.Helper, as: H
     end
 
-    # Preferred
+    # Recomendado
     if valid?(username) do
       ...
     end
@@ -486,26 +486,26 @@ Guide for homogeneous coding in projects that require the use of the [Elixir](ht
     end
     ```
 
-1. Use `do:` syntaxis for single line macros statement.
+1. Utiliza la sintaxis `do:` cuando el contenido de un macro pueda establecerse de una sola línea.
 
     ```elixir
-    # Preferred
+    # Recomendado
     if some_condition, do: # some_stuff
     ```
 
-1. If the arguments of a macro make the line too long, indent and align the successive arguments. Place the `do:` in a new line with one indentation level.
+1. Si los argumentos de un macro vuelven la linea demasiado larga, indenta y alinea los argumentos sucesivos. Coloca el `do:` en una nueva linea con un nivel de indentación.
 
     ```elixir
-    # Preferred
+    # Recomendado
     with {:ok, foo} <- Keyword.fetch(opts, :foo),
          {:ok, bar} <- Keyword.fetch(opts, :bar),
       do: {:ok, foo, bar}
     ```
 
-1. If the macro has a `do` block with more than one line, or has an `else` option, use multiline syntax.
+1. Si el macro tiene un bloque `do` con más de una línea, o tiene una opción `else`, utiliza la sintaxis multilínea.
 
     ```elixir
-    # Preferred
+    # Recomendado
     with {:ok, foo} <- Keyword.fetch(opts, :foo),
          {:ok, bar} <- Keyword.fetch(opts, :bar) do
       {:ok, foo, bar}
@@ -515,17 +515,17 @@ Guide for homogeneous coding in projects that require the use of the [Elixir](ht
     end
     ```
 
-1. Never use `unless` with `else`. Rewrite these with the positive case first with an `if` construct.
+1. Nunca utilices `unless` con `else`. Reescríbelo poniendo el caso positivo primero con una sentencia `if`.
 
     ```elixir
-    # Not preferred
+    # No recomendado
     unless success do
       IO.puts('failure')
     else
       IO.puts('success')
     end
 
-    # Preferred
+    # Recomendado
     if success do
       IO.puts('success')
     else
@@ -533,20 +533,20 @@ Guide for homogeneous coding in projects that require the use of the [Elixir](ht
     end
     ```
 
-1. Omit the `else` option in `if` and `unless` constructs if `else` returns **nil**.
+1. Omite la opción `else` en una sentencia  `if` o `unless` si esta regresa **nil**.
 
     ```elixir
-    # Not preferred
+    # No recomendado
     if byte_size(data) > 0, do: data, else: nil
 
-    # Preferred
+    # Recomendado
     if byte_size(data) > 0, do: data
     ```
 
-1. Use **true** as the last condition of the `cond` special form when you need a clause that always matches.
+1. Utiliza **true** como la última condición de `cond` cuando necesites una cláusula por defecto.
 
     ```elixir
-    # Not preferred
+    # No recomendado
     cond do
       1 + 2 == 5 ->
         "Nope"
@@ -558,7 +558,7 @@ Guide for homogeneous coding in projects that require the use of the [Elixir](ht
         "OK"
     end
 
-    # Preferred
+    # Recomendado
     cond do
       1 + 2 == 5 ->
         "Nope"
@@ -571,48 +571,48 @@ Guide for homogeneous coding in projects that require the use of the [Elixir](ht
     end
     ```
 
-1. Use `or`, `and` and `not` for strictly boolean checks. Use `||`, `&&`, and `!` operators only if any of the arguments are non-boolean.
+1. Utiliza `or`, `and` y `not` para comparaciones extrictamente booleanas. Utiliza `||`, `&&`, y `!` cuando alguno de los argumentos sea no-booleano.
 
     ```elixir
-    # Not preferred
+    # No recomendado
     is_atom(name) && name != nil
     is_binary(task) || is_atom(task)
 
-    # Preferred
+    # Recomendado
     is_atom(name) and name != nil
     is_binary(task) or is_atom(task)
     line && line != 0
     file || "sample.exs"
     ```
 
-1. Always use the special syntax for *keyword* lists.
+1. Utiliza siempre la sintaxis especial para listas de *keywords*.
 
     ```elixir
-    # Not preferred
+    # No recomendado
     some_value = [{:a, "baz"}, {:b, "qux"}]
 
-    # Preferred
+    # Recomendado
     some_value = [a: "baz", b: "qux"]
     ```
 
-1. Omit square brackets from *keyword* lists whenever they are optional.
+1. Omite los delimitadores de las listas de *keywords* siempre que sean opcionales.
 
     ```elixir
-    # Not preferred
+    # No recomendado
     some_function(foo, bar, [a: "baz", b: "qux"])
 
-    # Preferred
+    # Recomendado
     some_function(foo, bar, a: "baz", b: "qux")
     ```
 
-### Naming
+### Nombrado
 
-1. Use *snake case* for naming directories and files, for example: `lib/my_app/task_server.ex`.
+1. Utiliza *snake case* para nombrar directorios y archivos, por ejemplo: `lib/my_app/task_server.ex`.
 
-1. Use *upper camel case* for modules (keep acronyms like HTTP, RFC, XML uppercase).
+1. Utiliza *upper camel case* para módulos (mantén los acrónimos como HTTP, RFC, XML en mayúsculas).
 
     ```elixir
-    # Not preferred
+    # No recomendado
     defmodule Somemodule do
       ...
     end
@@ -625,7 +625,7 @@ Guide for homogeneous coding in projects that require the use of the [Elixir](ht
       ...
     end
 
-    # Preferred
+    # Recomendado
     defmodule SomeModule do
       ...
     end
@@ -635,10 +635,10 @@ Guide for homogeneous coding in projects that require the use of the [Elixir](ht
     end
     ```
 
-1. Use *snake case* for *atoms*, functions and variables.
+1. Usa *snake case* para *atoms*, funciones y variables.
 
     ```elixir
-    # Not preferred
+    # No recomendado
     :"some atom"
     :SomeAtom
     :someAtom
@@ -649,7 +649,7 @@ Guide for homogeneous coding in projects that require the use of the [Elixir](ht
       ...
     end
 
-    # Preferred
+    # Recomendado
     :some_atom
 
     some_var = 5
@@ -659,78 +659,78 @@ Guide for homogeneous coding in projects that require the use of the [Elixir](ht
     end
     ```
 
-1. The names of macros (compile-time generated functions that return a boolean value) that can be used within *guards* should be prefixed with "is_".
+1. Los nombres de macros (funciones generadas en tiempo de compilación que devuelven un valor booleano) que puedan ser utilizadas dentro de *guards* deberían nombrarse con el prefijo "is_".
 
     ```elixir
-    # Preferred
+    # Recomendado
     defmacro is_cool(var) do
       quote do: unquote(var) == "cool"
     end
     ```
 
-1. The names of functions that return a boolean value should have a trailing question mark "?" rather than the "is_" prefix.
+1. Los nombres de las funciones que regresen un valor booleano deberán de terminar en signo de interrogación "?" en lugar de tener un prefijo "is_".
 
     ```elixir
-    # Preferred
+    # Recomendado
     def cool?(var) do
       ...
     end
     ```
 
-1. The private functions with the same name as public functions should have the "do_" prefix.
+1. Las funciones privadas que compartan el mismo nombre con alguna función pública deben tener el prefijo "do_".
 
     ```elixir
-    # Preferred
+    # Recomendado
     def sum(list), do: do_sum(list, 0)
 
     defp do_sum([], total), do: total
     defp do_sum([head | tail], total), do: do_sum(tail, head + total)
     ```
 
-### Comments
+### Comentarios
 
-1. Write expressive code and try to convey your program's intention through control-flow, structure and naming.
+1. Escribe código expresivo e intenta transmitir la intención de tu programa a través de flujos de control, estructura y nombrado.
 
-1. Place comments above the line they comment on.
+1. Los comentarios se escriben en la línea inmediatamente superior al código que anotan.
 
     ```elixir
-    String.first(some_string) # Not preferred
+    String.first(some_string) # No recomendado
 
-    # Preferred
+    # Recomendado
     String.first(some_string)
     ```
 
-1. Use one space between the leading "#" character of the comment and the text of the comment.
+1. Utiliza un espacio entre el carácter introductorio del comentario "#" y el resto del texto del comentario.
 
     ```elixir
-    #Not preferred
+    #No recomendado
     String.first(some_string)
 
-    # Preferred
+    # Recomendado
     String.first(some_string)
     ```
 
-1. Comments longer than a word are capitalized, and sentences use punctuation. Use one space after periods.
+1. Los comentarios que sean más largos de una palabra se escribirán capitalizados, y las frases utilizarán signos de puntuación. Usa un espacio tras cada punto.
 
     ```elixir
-    # Not preferred
-    # these lowercase comments are missing punctuation
+    # No recomendado
+    # estos comentarios no inician en mayúsculas y falta puntuación
 
-    # Preferred
-    # Capitalization example: Use punctuation for complete sentences.
+    # Recomendado
+    # Comentario con puntuación correctamente utilizada.
     ```
 
-#### Comment Annotations
+#### Comentarios de Anotación
 
-1. The annotation keyword is uppercase, and is followed by a colon and a space, then a note describing the problem.
+1. La palabra clave para la anotación estará completamente en mayúsculas, seguida de dos puntos y un espacio, a continuación se añade la nota que describe el problema.
 
     ```elixir
-    # Preferred
+    # Recomendado
     # TODO: Deprecate in v1.5.
     def some_function(arg), do: {:ok, arg}
     ```
 
-1. In cases where the problem is so obvious that any documentation would be redundant, annotations may be left with no note. This usage should be the exception and not the rule.
+1. En casos en los que el problema sea tan obvio que cualquier tipo de documentación resulte redundante, puedes poner las anotaciones sin ninguna  nota. Este uso debería de ser la excepción y no la norma.
 
     ```elixir
     start_task()
@@ -739,66 +739,66 @@ Guide for homogeneous coding in projects that require the use of the [Elixir](ht
     Process.sleep(5000)
     ```
 
-1. Use `TODO` to note missing features or functionality that should be added at a later date
+1. Utiliza `TODO` para anotar código que falte o funcionalidades que deberán ser añadidas posteriormente.
 
-1. Use `FIXME` to note broken code that needs to be fixed.
+1. Utiliza `FIXME` para denotar código que debe ser arreglado.
 
-1. Use `OPTIMIZE` to note slow or inefficient code that may cause performance problems.
+1. Utiliza `OPTIMIZE` para denotar código lento o ineficiente que pudiese llegar a causar problemas de rendimiento.
 
-1. Use `HACK` to note code smells where questionable coding practices were used and should be refactored away.
+1. Utiliza `HACK` para denotar *code smells* en los que se hayan empleado prácticas de programación cuestionables y que deban ser refactorizados.
 
-1. Use `REVIEW` to note anything that should be looked at to confirm it is working as intended.
+1. Utiliza `REVIEW` para denotar cualquier cosa que deba ser revisada para confirmar que funciona como se espera.
 
     ```elixir
-    # REVIEW: Are we sure this is how the client does X currently?
+    # REVIEW: Estamos seguros que es así como el cliente hace X actualmente?
     ```
 
-1. Use other custom annotation keywords if it feels appropriate, but be sure to document them in your project's README or similar.
+1. Utiliza claves de anotación propias si lo consideras oportuno, pero asegúrate de documentarlas en el fichero README de tu proyecto o similar.
 
-### Modules
+### Módulos
 
-1. Use one module per file unless the module is only used internally by another module (such as a test).
+1. Utiliza un archivo por módulo a no ser que el módulo sea utilizado únicamente de manera interna por otro módulo (como en el caso de una prueba).
 
-1. Use *snake case* file names for *upper camel case* module names.
+1. Utiliza *snake case* para el nombre del fichero y *upper camel case* para el nombre del módulo.
 
     ```elixir
-    # Preferred
-    # file is called: some_module.ex
+    # Recomendado
+    # nombre de archivo: some_module.ex
 
     defmodule SomeModule do
     end
     ```
 
-1. Represent each level of nesting within a module name as a directory.
+1. Representa cada nivel de anidación dentro del módulo como un directorio.
 
     ```elixir
-    # Preferred
-    # file is called: parser/core/xml_parser.ex
+    # Recomendado
+    # nombre de archivo: parser/core/xml_parser.ex
 
     defmodule Parser.Core.XMLParser do
     end
     ```
 
-1. Don't put a blank line after `defmodule`.
+1. No dejes una línea en blanco después de `defmodule`.
 
     ```elixir
-    # Not preferred
+    # No recomendado
     defmodule System.Accounts do
 
       import Ecto.Query, warn: false
       ...
     end
 
-    # Preferred
+    # Recomendado
     defmodule System.Accounts do
       import Ecto.Query, warn: false
       ...
     end
     ```
 
-1. Put a blank line after module-level code blocks.
+1. Deja una línea en blanco después de cada bloque de código a nivel de módulo.
 
-1. List module attributes and directives in the following order:
+1. Lista los atributos y directivas del módulo en el siguiente orden:
 
     1. `@moduledoc`
     1. `@behaviour`
@@ -813,10 +813,10 @@ Guide for homogeneous coding in projects that require the use of the [Elixir](ht
     1. `@macrocallback`
     1. `@optional_callbacks`
 
-1. Add a blank line between each grouping, and sort the terms (like module names) alphabetically. Here's an overall example of how you should order things in your modules:
+1. Añade una línea en blanco entre cada grupo, y ordena alfabéticamente los términos (como nombres de módulo). Aquí tienes un ejemplo general de cómo deberías ordenar el código en tus módulos:
 
     ```elixir
-    # Preferred
+    # Recomendado
     defmodule MyModule do
       @moduledoc """
       An example module
@@ -851,10 +851,10 @@ Guide for homogeneous coding in projects that require the use of the [Elixir](ht
     end
     ```
 
-1. Use the `__MODULE__` pseudo variable when a module refers to itself. This avoids having to update any self-references when the module name changes.
+1. Usa la pseudo variable `__MODULE__` cuando un módulo se refiera a sí mismo. Esto evitará que tengas que actualizar cualquier referencia cuando el nombre del módulo cambie.
 
     ```elixir
-    # Preferred
+    # Recomendado
     defmodule SomeProject.SomeModule do
       defstruct [:name]
 
@@ -862,10 +862,10 @@ Guide for homogeneous coding in projects that require the use of the [Elixir](ht
     end
     ```
 
-    If you want a prettier name for a module self-reference, set up an alias.
+    Si prefieres utilizar otro nombre para esta referencia, define un alias.
 
     ```elixir
-    # Preferred
+    # Recomendado
     defmodule SomeProject.SomeModule do
       alias __MODULE__, as: SomeModule
 
@@ -875,31 +875,31 @@ Guide for homogeneous coding in projects that require the use of the [Elixir](ht
     end
     ```
 
-1. Avoid repeating fragments in module names and namespaces. This improves overall readability and eliminates ambiguous aliases.
+1. Evita repeticiones en los nombres de módulos y espacios de nombrado. Mejorará la legibilidad global y elimina alias ambiguos.
 
     ```elixir
-    # Not preferred
+    # No recomendado
     defmodule Todo.Todo do
       ...
     end
 
-    # Preferred
+    # Recomendado
     defmodule Todo.Item do
       ...
     end
     ```
 
-### Functions
+### Funciones
 
-1. If a function receives options, they must be grouped into a *keyword list* as the last argument, and with the operator `\\` an empty list will be assigned as default. Each option will have its own variable, wich is assigned the value of the corresponding *keyword* in the options argument with the `Keyword.get` method, or a default value in the case of not being provided.
+1. Si una función recibe opciones, estas se deberán agrupar en un *keyword list* como último argumento, y con el operador `\\` se asignará una lista vacia como default. Cada opción tendrá su propia variable, a la cual se le asigna el valor del *keyword* correspondiente en el argumento opciones mediante el método `Keyword.get`, o un valor default en caso de no ser proporcionado.
 
     ```elixir
-    # Not preferred
+    # No recomendado
     def some_function(arg, opt1 \\ "Default value 1", opt2 \\ 255, opt3 \\ false) do
       ...
     end
 
-    # Preferred
+    # Recomendado
     def some_function(arg, options \\ []) do
       opt1 = Keyword.get(options, :opt1, "Default value 1")
       opt2 = Keyword.get(options, :opt2, 255)
@@ -909,29 +909,29 @@ Guide for homogeneous coding in projects that require the use of the [Elixir](ht
     end
     ```
 
-### Documentation
+### Documentación
 
-Documentation in Elixir (when read either in IEx with h or generated with ExDoc) uses the Module Attributes `@moduledoc` and `@doc`.
+La documentación en Elixir (ya sea cuando es leída en IEx mediante h o cuando es generada con ExDoc) utiliza los atributos de módulo `@moduledoc` y `@doc`.
 
-1. Use `@moduledoc false` if you do not intend on documenting the module.
+1. Utiliza `@moduledoc false` si no pretendes documentar un módulo.
 
     ```elixir
-    # Not preferred
+    # No recomendado
     defmodule SomeModule do
       ...
     end
 
-    # Preferred
+    # Recomendado
     defmodule SomeModule do
       @moduledoc false
       ...
     end
     ```
 
-1. Separate code after the `@moduledoc` with a blank line.
+1. Separa el código tras `@moduledoc` con una línea en blanco.
 
     ```elixir
-    # Not preferred
+    # No recomendado
     defmodule SomeModule do
       @moduledoc """
       About the module
@@ -939,7 +939,7 @@ Documentation in Elixir (when read either in IEx with h or generated with ExDoc)
       use AnotherModule
     end
 
-    # Preferred
+    # Recomendado
     defmodule SomeModule do
       @moduledoc """
       About the module
@@ -949,10 +949,10 @@ Documentation in Elixir (when read either in IEx with h or generated with ExDoc)
     end
     ```
 
-1. Use *heredocs strings* with markdown for documentation.
+1. Usa *heredocs strings* con markdown para la documentación.
 
     ```elixir
-    # Not preferred
+    # No recomendado
     defmodule SomeModule do
       @moduledoc "About the module"
     end
@@ -967,7 +967,7 @@ Documentation in Elixir (when read either in IEx with h or generated with ExDoc)
       """
     end
 
-    # Preferred
+    # Recomendado
     defmodule SomeModule do
       @moduledoc """
       About the module
@@ -982,14 +982,14 @@ Documentation in Elixir (when read either in IEx with h or generated with ExDoc)
 
 ### Typespecs
 
-Typespecs are notation for declaring types and specifications, for documentation or for the static analysis tool Dialyzer.
+Typespecs es una notación para declarar tipos y especificaciones, ya sea para documentación o para la herramienta de análisis estático Dialyzer.
 
-Custom types should be defined at the top of the module with the other directives.
+Los tipos propios deben de ser definidos en la parte superior del módulo junto con las demás directivas.
 
-1. Place `@typedoc` and `@type` definitions together, and separate each pair with a blank line.
+1. Sitúa las definiciones `@typedoc` y `@type` juntas, y separa cada par con una línea en blanco.
 
     ```elixir
-    # Preferred
+    # Recomendado
     defmodule SomeModule do
       @moduledoc false
 
@@ -1003,14 +1003,14 @@ Custom types should be defined at the top of the module with the other directive
     end
     ```
 
-1. If a union type is too long to fit on a single line, put each part of the type on a separate line, indented one level past the name of the type.
+1. Si la unión de tipos es demasiado larga para caber en una sola línea, añade una nueva línea e indenta un nivel más para mantener los tipos alineados.
 
     ```elixir
-    # Not preferred
+    # No recomendado
     @type long_union_type :: some_type | another_type | some_other_type |
     a_final_type
 
-    # Preferred
+    # Recomendado
     @type long_union_type ::
             some_type
             | another_type
@@ -1018,10 +1018,10 @@ Custom types should be defined at the top of the module with the other directive
             | a_final_type
     ```
 
-1. Name the main type for a module t, for example: the type specification for a *struct*.
+1. Nombra al tipo principal para un módulo t, por ejemplo: la especificación de tipo para un *struct*.
 
     ```elixir
-    # Preferred
+    # Recomendado
     defstruct name: nil, params: []
 
     @type t :: %__MODULE__{
@@ -1030,17 +1030,17 @@ Custom types should be defined at the top of the module with the other directive
           }
     ```
 
-1. Place specifications right before the function definition, without separating them by a blank line.
+1. Sitúa las especificaciones justo antes de la definición de la función, sin separarlas con una línea en blanco.
 
     ```elixir
-    # Not preferred
+    # No recomendado
     @spec some_function(term) :: result
 
     def some_function(some_data) do
       {:ok, some_data}
     end
 
-    # Preferred
+    # Recomendado
     @spec some_function(term) :: result
     def some_function(some_data) do
       {:ok, some_data}
@@ -1049,37 +1049,37 @@ Custom types should be defined at the top of the module with the other directive
 
 ### Structs
 
-1. Use a list of *atoms* for *struct* fields that default to **nil**, followed by the other *keywords*.
+1. Usa una lista de *atoms* para los campos del *struct* que tengan valor **nil**, seguida del resto de *keywords*.
 
     ```elixir
-    # Not preferred
+    # No recomendado
     defstruct name: nil, params: nil, active: true
 
-    # Preferred
+    # Recomendado
     defstruct [:name, :params, active: true]
     ```
 
-1. Omit square brackets when the argument of a `defstruct` is a *keyword* list. Brackets will not be omitted if there is at least one *atom* in the list.
+1. Omite los corchetes cuando el argumento de `defstruct` sea una lista de *keywords*. No se omitirán si en la lista existe por lo menos un *atom*.
 
     ```elixir
-    # Not preferred
+    # No recomendado
     defstruct [params: [], active: true]
 
-    # Preferred
+    # Recomendado
     defstruct params: [], active: true
 
-    # Required - Brackets are not optional, with at least one atom in the list.
+    # Requerido - No son opcionales los corchetes, con al menos un atom en la lista.
     defstruct [:name, params: [], active: true]
     ```
 
-1. If a *struct* definition spans multiple lines, put each element on its own line, keeping the elements aligned.
+1. Si una definición de un *struct* despliega múltiples líneas, coloca cada elemento en su propia linea, manteniendo los elementos alineados.
 
     ```elixir
-    # Not preferred
+    # No recomendado
     defstruct foo: "test", bar: true, baz: false,
       qux: false, quux: 1
 
-    # Preferred
+    # Recomendado
     defstruct foo: "test",
               bar: true,
               baz: false,
@@ -1087,10 +1087,10 @@ Custom types should be defined at the top of the module with the other directive
               quux: 1
     ```
 
-1. If a multiline *struct* requires brackets, format it as a multiline list:
+1. Si un *struct* multilínea requiere limitadores, dale formato de lista multilinea.
 
     ```elixir
-    # Preferred
+    # Recomendado
     defstruct [
       :name,
       params: [],
@@ -1098,12 +1098,12 @@ Custom types should be defined at the top of the module with the other directive
     ]
     ```
 
-### Exceptions
+### Excepciones
 
-1. Make exception names end with a trailing "Error".
+1. Haz que los nombres de las excepciones terminen en "Error".
 
     ```elixir
-    # Not preferred
+    # No recomendado
     defmodule BadHTTPCode do
       defexception [:message]
     end
@@ -1112,62 +1112,62 @@ Custom types should be defined at the top of the module with the other directive
       defexception [:message]
     end
 
-    # Preferred
+    # Recomendado
     defmodule BadHTTPCodeError do
       defexception [:message]
     end
     ```
 
-1. Use lowercase error messages when raising exceptions, with no trailing punctuation.
+1. Utiliza mensajes de error en minúsculas cuando lances excepciones. No utilices puntuación al final.
 
     ```elixir
-    # Not preferred
+    # No recomendado
     raise ArgumentError, "This is not valid."
 
-    # Preferred
+    # Recomendado
     raise ArgumentError, "this is not valid"
     ```
 
 ### Strings
 
-1. Match *strings* using the string concatenator rather than binary patterns:
+1. Haz match de *strings* utilizando la concatenación de string en lugar de patrones binarios:
 
     ```elixir
-    # Not preferred
+    # No recomendado
     <<"my"::utf8, _rest::bytes>> = "my string"
 
-    # Preferred
+    # Recomendado
     "my" <> _rest = "my string"
     ```
 
-### Testing
+### Pruebas
 
-1. When writing ExUnit assertions, be consistent with the order of the expected and actual values under testing. Prefer placing the expected result on the right, unless the assertion is a *pattern match*.
+1. Cuando escribas aserciones con ExUnit, se consistente con el orden de los valores esperados y actuales que estás probando. Es preferible poner el valor esperado a la derecha, a no ser que la aserción sea un *pattern match*.
 
     ```elixir
-    # Not preferred - Inconsistent order.
+    # No recomendado - Orden incosistente.
     assert actual_function(1) == true
     assert false == actual_function(2)
 
-    # Preferred - Expected result on the right.
+    # Recomendado - Resultado esperado a la derecha.
     assert actual_function(1) == true
     assert actual_function(2) == false
 
-    # Required - The assertion is a pattern match.
+    # Requerido - La aserción es un pattern match.
     assert {:ok, expected} = actual_function(3)
     ```
 
-## Languages
+## Idiomas
 
-- [English](README.md)
-- [Spanish (Español)](README.es_ES.md)
+- [Español](README.md)
+- [Inglés (English)](README.en_US.md)
 
-## Copying
+## Derechos
 
-### License
+### Licencia
 
-![Creative Commons License](http://i.creativecommons.org/l/by/3.0/88x31.png) This work is licensed under a [Creative Commons Attribution 3.0 Unported License](https://creativecommons.org/licenses/by/3.0/deed.en_US).
+![Creative Commons License](http://i.creativecommons.org/l/by/3.0/88x31.png) Este documento está publicado bajo licencia [Creative Commons Reconocimiento 3.0 Unported License](https://creativecommons.org/licenses/by/3.0/deed.es_ES).
 
-### Attribution
+### Atribución
 
-The structure of this guide, bits of example code, and many of the initial points made in this document were borrowed from [Christopher Adams'](https://github.com/christopheradams/elixir_style_guide), [Alberto Almargo's](https://github.com/albertoalmagro/elixir_style_guide), [Aleksei Magusev's](https://github.com/lexmag/elixir-style-guide) and [Credo's](https://github.com/rrrene/elixir-style-guide) Elixir style guides.
+La estructura de esta guía, partes del código de ejemplo, y muchos otros puntos iniciales de este documento fueron tomados de las guías de estilo de Elixir de [Christopher Adams](https://github.com/christopheradams/elixir_style_guide), [Alberto Almargo](https://github.com/albertoalmagro/elixir_style_guide), [Aleksei Magusev](https://github.com/lexmag/elixir-style-guide) y [Credo](https://github.com/rrrene/elixir-style-guide).
