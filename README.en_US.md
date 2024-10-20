@@ -2,21 +2,6 @@
 
 Guide for homogeneous coding with Elixir programming lenguage.
 
-- [Elixir coding guidelines](#elixir-coding-guidelines)
-  - [Source code layout](#source-code-layout)
-  - [Syntax](#syntax)
-  - [Naming](#naming)
-  - [Comments](#comments)
-  - [Modules](#modules)
-  - [Functions](#functions)
-  - [Documentation](#documentation)
-  - [Typespecs](#typespecs)
-  - [Structs](#structs)
-  - [Exceptions](#exceptions)
-  - [Strings](#strings)
-  - [Testing](#testing)
-  - [License](#license)
-
 ## Source code layout
 
 1. Avoid lines longer than 80 characters.
@@ -706,7 +691,7 @@ Guide for homogeneous coding with Elixir programming lenguage.
     # Capitalization example: Use punctuation for complete sentences.
     ```
 
-### Comment Annotations<!-- omit in toc -->
+### Comment Annotations
 
 1. The annotation keyword is uppercase, and is followed by a colon and a space, then a note describing the problem.
 
@@ -1147,6 +1132,6 @@ Custom types should be defined at the top of the module with the other directive
 
 ![Creative Commons License](http://i.creativecommons.org/l/by/3.0/88x31.png) This work is licensed under a [Creative Commons Attribution 3.0 Unported License](https://creativecommons.org/licenses/by/3.0/deed.en_US).
 
-### Attribution <!-- omit in toc -->
+### Attribution
 
 The structure of this guide, bits of example code, and many of the initial points made in this document were borrowed from [Christopher Adams'](https://github.com/christopheradams/elixir_style_guide), [Alberto Almargo's](https://github.com/albertoalmagro/elixir_style_guide), [Aleksei Magusev's](https://github.com/lexmag/elixir-style-guide) and [Credo's](https://github.com/rrrene/elixir-style-guide) Elixir style guides.
