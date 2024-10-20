@@ -1,21 +1,12 @@
-**Programming Language Coding Conventions**
+# Elixir coding guidelines
 
-# Elixir
+Guide for homogeneous coding with Elixir programming lenguage.
 
-Guide for homogeneous coding in projects that require the use of the [Elixir](https://elixir-lang.org/) programming language.
-
-![José Pamplona Documents](https://img.shields.io/badge/José%20Pamplona-Documents-blue.svg)
-
----
-
-## Table of Contents
-
-- [**Guide**](#guide)
-  - [Source Code Layout](#source-code-layout)
+- [Elixir coding guidelines](#elixir-coding-guidelines)
+  - [Source code layout](#source-code-layout)
   - [Syntax](#syntax)
   - [Naming](#naming)
   - [Comments](#comments)
-    - [Comment Annotations](#comment-annotations)
   - [Modules](#modules)
   - [Functions](#functions)
   - [Documentation](#documentation)
@@ -24,14 +15,9 @@ Guide for homogeneous coding in projects that require the use of the [Elixir](ht
   - [Exceptions](#exceptions)
   - [Strings](#strings)
   - [Testing](#testing)
-- [**Languages**](#languages)
-- [**Copying**](#copying)
   - [License](#license)
-  - [Attribution](#attribution)
 
-## Guide
-
-### Source Code Layout
+## Source code layout
 
 1. Avoid lines longer than 80 characters.
 
@@ -52,7 +38,7 @@ Guide for homogeneous coding in projects that require the use of the [Elixir](ht
     If you're using Git you might want to add the following configuration setting to protect your project from Windows line endings creeping in:
 
     ```sh
-    git config --global core.autocrlf
+    git config --global core.autocrlf true
     ```
 
 1. Use two spaces per indentation level. No hard tabs.
@@ -71,11 +57,11 @@ Guide for homogeneous coding in projects that require the use of the [Elixir](ht
 
 1. Use spaces after commas, colons and around operators. Except for unary operators, the operator point and the operator rank (two points). Do not put spaces around matched pairs like brackets, parentheses, etc. Whitespace might be (mostly) irrelevant to the Elixir runtime, but its proper use is the key to writing easily readable code.
 
-    | Style&#160;rule | Operators |
+    | Style rule | Operators |
     | :--- | :--- |
-    | No&#160;spaces | `@` `.` `+` `-` `!` `^` `&` `..` `~~~` `()` `[]` `{}` |
-    | Space&#160;after | `,` `:` `not` |
-    | Spaces&#160;around | `*` `/` `+` `-` `++` `--` `<>` `in` `not in` `\|>` `<<<` `>>>` `~>>` `<<~` `~>` `<~` `<~>` `<\|>` `<` `>` `<=` `>=` `==` `!=` `=~` `===` `!==` `&&` `&&&` `and` `\|\|` `\|\|\|` `or` `=` `=>` `::` `when` `<-` `\\` |
+    | No spaces | `@` `.` `+` `-` `!` `^` `&` `..` `~~~` `()` `[]` `{}` |
+    | Space after | `,` `:` `not` |
+    | Spaces around | `*` `/` `+` `-` `++` `--` `<>` `in` `not in` `\|>` `<<<` `>>>` `~>>` `<<~` `~>` `<~` `<~>` `<\|>` `<` `>` `<=` `>=` `==` `!=` `=~` `===` `!==` `&&` `&&&` `and` `\|\|` `\|\|\|` `or` `=` `=>` `::` `when` `<-` `\\` |
 
     > ⚠️ The operators `+` `-` are overloaded, they exist with one-arity and two-arity. When used with one-arity, no spaces are required. When are used with two-arity, spaces are placed around the operator.
 
@@ -393,7 +379,7 @@ Guide for homogeneous coding in projects that require the use of the [Elixir](ht
 
 1. End each file with a newline.
 
-### Syntax
+## Syntax
 
 1. Use parentheses when a `def` structure has arguments, and omit them when it doesn't.
 
@@ -605,7 +591,7 @@ Guide for homogeneous coding in projects that require the use of the [Elixir](ht
     some_function(foo, bar, a: "baz", b: "qux")
     ```
 
-### Naming
+## Naming
 
 1. Use *snake case* for naming directories and files, for example: `lib/my_app/task_server.ex`.
 
@@ -687,7 +673,7 @@ Guide for homogeneous coding in projects that require the use of the [Elixir](ht
     defp do_sum([head | tail], total), do: do_sum(tail, head + total)
     ```
 
-### Comments
+## Comments
 
 1. Write expressive code and try to convey your program's intention through control-flow, structure and naming.
 
@@ -720,7 +706,7 @@ Guide for homogeneous coding in projects that require the use of the [Elixir](ht
     # Capitalization example: Use punctuation for complete sentences.
     ```
 
-#### Comment Annotations
+### Comment Annotations<!-- omit in toc -->
 
 1. The annotation keyword is uppercase, and is followed by a colon and a space, then a note describing the problem.
 
@@ -755,7 +741,7 @@ Guide for homogeneous coding in projects that require the use of the [Elixir](ht
 
 1. Use other custom annotation keywords if it feels appropriate, but be sure to document them in your project's README or similar.
 
-### Modules
+## Modules
 
 1. Use one module per file unless the module is only used internally by another module (such as a test).
 
@@ -889,7 +875,7 @@ Guide for homogeneous coding in projects that require the use of the [Elixir](ht
     end
     ```
 
-### Functions
+## Functions
 
 1. If a function receives options, they must be grouped into a *keyword list* as the last argument, and with the operator `\\` an empty list will be assigned as default. Each option will have its own variable, wich is assigned the value of the corresponding *keyword* in the options argument with the `Keyword.get` method, or a default value in the case of not being provided.
 
@@ -909,7 +895,7 @@ Guide for homogeneous coding in projects that require the use of the [Elixir](ht
     end
     ```
 
-### Documentation
+## Documentation
 
 Documentation in Elixir (when read either in IEx with h or generated with ExDoc) uses the Module Attributes `@moduledoc` and `@doc`.
 
@@ -980,7 +966,7 @@ Documentation in Elixir (when read either in IEx with h or generated with ExDoc)
     end
     ```
 
-### Typespecs
+## Typespecs
 
 Typespecs are notation for declaring types and specifications, for documentation or for the static analysis tool Dialyzer.
 
@@ -1047,7 +1033,7 @@ Custom types should be defined at the top of the module with the other directive
     end
     ```
 
-### Structs
+## Structs
 
 1. Use a list of *atoms* for *struct* fields that default to **nil**, followed by the other *keywords*.
 
@@ -1098,7 +1084,7 @@ Custom types should be defined at the top of the module with the other directive
     ]
     ```
 
-### Exceptions
+## Exceptions
 
 1. Make exception names end with a trailing "Error".
 
@@ -1128,7 +1114,7 @@ Custom types should be defined at the top of the module with the other directive
     raise ArgumentError, "this is not valid"
     ```
 
-### Strings
+## Strings
 
 1. Match *strings* using the string concatenator rather than binary patterns:
 
@@ -1140,7 +1126,7 @@ Custom types should be defined at the top of the module with the other directive
     "my" <> _rest = "my string"
     ```
 
-### Testing
+## Testing
 
 1. When writing ExUnit assertions, be consistent with the order of the expected and actual values under testing. Prefer placing the expected result on the right, unless the assertion is a *pattern match*.
 
@@ -1157,17 +1143,10 @@ Custom types should be defined at the top of the module with the other directive
     assert {:ok, expected} = actual_function(3)
     ```
 
-## Languages
-
-- [English](README.en_US.md)
-- [Spanish (Español)](README.md)
-
-## Copying
-
-### License
+## License
 
 ![Creative Commons License](http://i.creativecommons.org/l/by/3.0/88x31.png) This work is licensed under a [Creative Commons Attribution 3.0 Unported License](https://creativecommons.org/licenses/by/3.0/deed.en_US).
 
-### Attribution
+### Attribution <!-- omit in toc -->
 
 The structure of this guide, bits of example code, and many of the initial points made in this document were borrowed from [Christopher Adams'](https://github.com/christopheradams/elixir_style_guide), [Alberto Almargo's](https://github.com/albertoalmagro/elixir_style_guide), [Aleksei Magusev's](https://github.com/lexmag/elixir-style-guide) and [Credo's](https://github.com/rrrene/elixir-style-guide) Elixir style guides.
